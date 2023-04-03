@@ -38,7 +38,7 @@ for i in range(10):
     Erms.append(np.sqrt(np.mean(np.square(y_train - t_train)))) # ~ math.sqrt( (y_train-t_train).T.dot(y_train-t_train)/len(x_train) )
     ErmsV.append(np.sqrt(np.mean(np.square( y_test - t_test )))) # ~ math.sqrt( (y_test - t_test).T.dot(y_test - t_test)/len(x_test) )
     
-#    Usando scikit-learn
+#    Usando scikit-aulas
 #    polynomial_features= PolynomialFeatures(degree=i)
 #    A_train = polynomial_features.fit_transform(x_train[:, np.newaxis])
 #    A_test = polynomial_features.fit_transform(x_test[:, np.newaxis])

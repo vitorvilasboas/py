@@ -86,7 +86,7 @@ plt.legend(loc='upper center')
 plt.show()
 
 
-#LDA implementation using scikit-learn
+#LDA implementation using scikit-aulas
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 lda = LinearDiscriminantAnalysis(n_components=2)
 X_train_lda = lda.fit_transform(X_train_std, y)

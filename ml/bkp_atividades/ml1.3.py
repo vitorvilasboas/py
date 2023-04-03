@@ -43,7 +43,7 @@ for j, grau in enumerate(M):
     y_std = np.sqrt(Err) + np.zeros_like(y_test)
     
     
-#    Usando scikit-learn
+#    Usando scikit-aulas
 #    polynomial_features= PolynomialFeatures(degree=grau)
 #    A_train = polynomial_features.fit_transform(x_train[:, np.newaxis])
 #    A_test = polynomial_features.fit_transform(x_test[:, np.newaxis])
