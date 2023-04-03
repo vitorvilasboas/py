@@ -1,0 +1,582 @@
+<CalSettings>:
+    on_pre_enter: if root.session.dp.flag_setup: root.update_settings()
+    name: 'calibrate'
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        ScrollView:
+#            canvas:
+#                Color:
+#                    rgba: 0, 0, 0,0
+#                Rectangle:
+#                    pos: self.pos
+#                    size: self.size
+            canvas.before:
+                Color:
+                    rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            StdSettingsContainer:
+                id: cfg_space
+                canvas.before:
+                    Color:
+                        rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                StdSettingTitle:
+                    title: 'Configurar Parâmetros de Calibração'
+#                    desc: 'Set parameters to setup system'
+                    color: 0,0,0,1
+                    bold: False
+                    font_size: 17
+                    canvas.before:
+                        Color:
+                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                StdSettingItem:
+                    title: 'Configuração automática?'
+                    desc: 'Marque para usar o auto-setup e definir os parâmetros automáticamente'
+                    Switch:
+                        id: check_auto_cal
+                        center_y: 0.5
+                        size_hint: None,1
+                        on_touch_down: root.set_enabled_field()
+                        on_touch_move: root.set_enabled_field()
+                        on_touch_up: root.set_enabled_field()
+                StdSettingItem:
+                    id: item_load_last_setup
+                    title: 'Carregar último modelo calibrado?'
+                    CheckBox:
+                        id: load_last_setup
+                        #on_release: root.update_screen()
+                StdSettingSlider:
+                    id: n_iter
+                    title: 'Número de iterações ' #'Taxa de amostragem'
+                    type: 'int'
+                    desc: 'Número de ciclos para calibrar os parâmetros do sistema' #'Taxa de amostragem em Hz do conjunto de dados de entrada'
+                    value: 100
+                    min: 1
+                    max: 10000
+                StdSettingTitle:
+                    title: 'Definições da janela temporal para extração de épocas'
+                    desc: 'Define the epoch limits and properties'
+                    color: 0,0,0,1
+                    bold: False
+                    font_size: 17
+                    canvas.before:
+                        Color:
+                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                StdSettingSlider:
+                    id: epoch_start
+                    title: 'Início da janela temporal (localização)'
+                    type: 'float'
+                    desc: 'Tempo em segundos a partir da dica nos dados de calibração'
+                    value: 0
+                    min: root.epoch_lim_min
+                    max: root.epoch_lim_max - 1
+                    on_touch_move: buf_len.value = int(epoch_end.value * root.srate) - int(epoch_start.value * root.srate)
+                    on_touch_up: buf_len.value = int(epoch_end.value * root.srate) - int(epoch_start.value * root.srate)
+                    on_touch_down: buf_len.value = int(epoch_end.value * root.srate) - int(epoch_start.value * root.srate)
+                StdSettingSlider:
+                    id: epoch_end
+                    title: 'Fim da janela (define a largura)'
+                    type: 'float'
+                    desc: 'Tempo em segundos s a partir da dica nos dados de calibração'
+                    value: epoch_start.value + 2
+                    min: epoch_start.value + 1
+                    max: root.epoch_lim_max
+                    on_touch_move: buf_len.value = int(epoch_end.value * root.srate) - int(epoch_start.value * root.srate)
+                    on_touch_up: buf_len.value = int(epoch_end.value * root.srate) - int(epoch_start.value * root.srate)
+                    on_touch_down: buf_len.value = int(epoch_end.value * root.srate) - int(epoch_start.value * root.srate)
+                StdSettingSlider:
+                    id: buf_len
+                    title: 'Largura da janela temporal'
+                    type: 'int'
+                    desc: 'Largura da janela temporal em amostras'
+                    value: int(epoch_end.value * root.srate) - int(epoch_start.value * root.srate)
+                    min: 0
+                    max: 2000
+                    disabled: True
+#                StdSettingTitle:
+#                    title: 'Epoch Rejection Settings'
+#                    desc: 'Define properties for valid epochs'
+#                StdSettingSlider:
+#                    id: max_amp
+#                    title: 'Maximum Amplitude'
+#                    type: 'float'
+#                    desc: 'Maximum amplitude (uV) allowed for filtered epoch'
+#                    value: 50
+#                    min: 0
+#                    max: 500
+#                StdSettingSlider:
+#                    id: max_mse
+#                    title: 'Maximum MSE from mean fft'
+#                    type: 'float'
+#                    desc: 'Maximum mean squared error between epoch fft and mean fft from training set'
+#                    value: 0.1
+#                    min: 0.01
+#                    max: 1
+                StdSettingTitle:
+                    title: 'Arquitetura da cadeia de processamento (sub-bandas ou banda única)'
+                    desc: 'Escolha entre a abordagem de sub-bandas (SB) ou banda única (BU)'
+                    color: 0,0,0,1
+                    bold: False
+                    font_size: 17
+                    canvas.before:
+                        Color:
+                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                StdSettingItem:
+                    id: item_sb_method
+                    title: 'Usar abordagem de sub-bandas?'
+                    desc: 'Marque se deseja usar a abordagem de sub-bandas'
+                    Switch:
+                        id: sb_method
+                        center_y: 0.5
+                        size_hint: None,1
+                        #size: 200,50
+                StdSettingSlider:
+                    id: n_sbands
+                    title: 'Número de sub-bandas'
+                    type: 'int'
+                    desc: ''
+                    value: 1
+                    min: 1
+                    max: 50
+                StdSettingItem:
+                    id: item_overlap
+                    title: 'Usar sobreposição de sub-bandas?'
+                    desc: 'Marque se deseja usar sobre-posição entre as sub-bandas'
+                    Switch:
+                        id: overlap
+                        center_y: 0.5
+                        size_hint: None,1
+                        #size: 200,50
+
+                StdSettingTitle:
+                    title: 'Filtragem Temporal/Espectral'
+#                    desc: 'Set filter parameters'
+                    color: 0,0,0,1
+                    bold: False
+                    font_size: 17
+                    canvas.before:
+                        Color:
+                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                StdSettingItem:
+                    id: item_filt_approach
+                    title: 'Método de Filtragem Temporal/Espectral'
+                    desc: 'Defina o método de filtragem'
+                    Spinner:
+                        id: filt_approach
+                        size_hint: None,None
+                        size: 200,50
+                        text: '< Select >'
+                        values: ['IIR', 'FIR', 'DFT']
+                        on_text: root.set_enabled_field()
+                StdSettingSlider:
+                    id: f_low
+                    title: 'Frequência de corte inferior'
+                    type: 'float'
+                    desc: 'Defina a frequência de corte inferior em Hz'
+                    value: 8
+                    min: 0 # 0.5
+                    max: 50
+                StdSettingSlider:
+                    id: f_high
+                    title: 'Frequência de corte superior'
+                    type: 'float'
+                    desc: 'Defina a frequência de corte superior em Hz'
+                    value: 30
+                    min: f_low.value
+                    max: 100
+                StdSettingSlider:
+                    id: f_order
+                    title: 'Ordem do filtro passa-faixa'
+                    type: 'float'
+                    desc: 'IIR ou FIR'
+                    value: 5
+                    min: 1
+                    max: 10
+
+                StdSettingTitle:
+                    title: 'Modelo de aprendizagem'
+#                    desc: 'Set parameters of machine learning algorithms'
+                    color: 0,0,0,1
+                    bold: False
+                    font_size: 17
+                    canvas.before:
+                        Color:
+                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                StdSettingSlider:
+                    id: csp_nei
+                    title: 'Número de autovetores (filtros) CSP'
+                    type: 'int'
+                    desc: 'Deve ser par'
+                    value: 8
+                    min: 2
+                    max: 22
+                StdSettingItem:
+                    id: item_clf1
+                    title: 'Classificador final'
+                    desc: 'Defina a técnica de classificação'
+                    Spinner:
+                        id: clf1
+                        size_hint: None,None
+                        size: 200,50
+                        text: '< Select >'
+                        values: ['KNN', 'LDA', 'LR', 'MLP', 'SVM'] # , 'DTree', 'Bayes']
+#                        on_release: root.set_enabled_field()
+#                        on_press: root.set_enabled_field()
+                        on_text: root.set_enabled_field() # root.set_enabled_clf_params()
+#                StdSettingItem:
+#                    id: item_clf2
+#                    title: 'Sub-band Classification Model'
+#                    desc: 'Choose the classification model to sub-bands'
+#                    Spinner:
+#                        id: clf2
+#                        size_hint: None,None
+#                        size: 200,50
+#                        text: '< Select >'
+#                        values: ['KNN', 'LDA', 'MLP', 'SVM', 'DTree', 'Bayes']
+
+                StdSettingItem:
+                    id: item_lda_solver
+                    title: 'LDA Solver'
+                    desc: ''
+                    Spinner:
+                        id: lda_solver
+                        size_hint: None,None
+                        size: 200,50
+                        text: '< Select >'
+                        values: ['svd','lsqr','eigen']
+
+                StdSettingSlider:
+                    id: svm_c
+                    title: 'Parâmetro de regularização SVM'
+                    type: 'int'
+                    desc: 'Representa o valor de x na expressão (log(10^x))'
+                    value: -4
+                    min: -10
+                    max: 10
+                StdSettingItem:
+                    id: item_svm_kernel
+                    title: 'Função Kernel SVM'
+                    desc: ''
+                    Spinner:
+                        id: svm_kernel
+                        size_hint: None,None
+                        size: 200,50
+                        text: '< Select >'
+                        values: ['Linear', 'Poly', 'Sigmoid', 'RBF']
+
+                StdSettingSlider:
+                    id: neighbors_knn
+                    title: 'Número de vizinhos KNN'
+                    type: 'int'
+                    desc: 'Defina o número de vizinhos mais próximos'
+                    value: 5
+                    min: 2
+                    max: 50 # root.session.acq.ds_trials_per_class * 2
+                StdSettingItem
+                    id: item_metric_knn
+                    title: 'Função métrica KNN '
+                    desc: ''
+                    Spinner:
+                        id: metric_knn
+                        size_hint: None,None
+                        size: 200,50
+                        text: '< Select >'
+                        values: ['euclidean','manhattan','minkowski','chebyshev'] #['cityblock', 'cosine', 'euclidean', 'l1', 'l2', 'manhattan', 'minkowski', 'chebyshev']
+
+                StdSettingSlider:
+                    id: mlp_eta
+                    title: 'MLP learn rate'
+                    desc: ''
+                    type: 'float'
+                    value: -3
+                    min: -8
+                    max: 1
+                StdSettingSlider:
+                    id: mlp_hidden_neurons
+                    title: 'Número de neurônios por camada oculta'
+                    type: 'int'
+                    desc: ''#'DefinSet the number of neurons in the hidden layer in MLP case'
+                    value: 100
+                    min: 10
+                    max: 500
+                StdSettingSlider:
+                    id: mlp_hidden_size
+                    title: 'Número de camadas ocultas MLP'
+                    type: 'int'
+                    desc: ''#'Set the number of neurons in the hidden layer in MLP case'
+                    value: 1
+                    min: 1
+                    max: 5
+                StdSettingItem:
+                    id: item_mlp_activation
+                    title: 'Função de ativação MLP'
+                    desc: ''
+                    Spinner:
+                        id: mlp_activation
+                        size_hint: None,None
+                        size: 200,50
+                        text: '< Select >'
+                        values: ['identity','logistic','tanh','relu']
+                StdSettingItem:
+                    id: item_mlp_solver
+                    title: 'Solucionador MLP'
+                    desc: ''
+                    Spinner:
+                        id: mlp_solver
+                        size_hint: None,None
+                        size: 200,50
+                        text: '< Select >'
+                        values: ['adam','sgd','lbfgs']
+
+###################
+        GridLayout:
+            rows: 1
+            size_hint: (1, None)
+            height: 50
+            spacing: 5
+            padding: 5
+#            Button:
+#                font_size: 20
+#                text: 'Back'
+#                on_press: root.back_to_calLoad()
+#            Button:
+#                font_size: 20
+#                text: 'Train Model'
+#                on_press: root.calibrate()
+            canvas:
+                Color:
+                    rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                Rectangle:
+                    size:self.size
+                    pos:self.pos
+            MySmoothButton:
+                font_size: 20
+                text: 'Voltar'
+                color: 0.149, 0.161, 0.204, 1
+                on_press: root.back_to_calLoad()
+                back_color: (0.878, 0.984, 0.984, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+                border_radius: [18,2,2,18]
+
+            MySmoothButton:
+                id: btn_save_progress
+                font_size: 20
+                text: 'Calibrar'
+                color: 0.149, 0.161, 0.204, 1
+                on_press: root.calibrate()
+                back_color: (0.878, 0.984, 0.984, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+                border_radius: [2,18,18,2]
+
+
+<LDAparams>:
+    id: clf_grid
+    cols: 1
+    spacing: 0, 5
+    padding: 0, 0
+    size_hint_y: None
+    height: self.minimum_height
+    on_minimum_height: self.height=self.minimum_height
+    StdSettingItem:
+        id: item_lda_solver
+        title: 'LDA Solver'
+        desc: ''
+        Spinner:
+            id: lda_solver
+            size_hint: None,None
+            size: 200,50
+            text: '< Select >'
+            values: ['svd','lsqr','eigen']
+
+
+<KNNparams>:
+    id: clf_grid
+    cols: 1
+    spacing: 0, 5
+    padding: 0, 0
+    size_hint_y: None
+    height: self.minimum_height
+    on_minimum_height: self.height=self.minimum_height
+    StdSettingSlider:
+        id: neighbors_knn
+        title: 'KNN Neighbors number'
+        type: 'int'
+        desc: 'Set the neighbors number to use in kNN case'
+        value: 5
+        min: 2
+        max: 50 # root.session.acq.ds_trials_per_class * 2
+    StdSettingItem
+        id: item_metric_knn
+        title: 'KNN Metric'
+        desc: ''
+        Spinner:
+            id: metric_knn
+            size_hint: None,None
+            size: 200,50
+            text: '< Select >'
+            values: ['euclidean','manhattan','minkowski','chebyshev'] #['cityblock', 'cosine', 'euclidean', 'l1', 'l2', 'manhattan', 'minkowski', 'chebyshev']
+
+
+<SVMparams>:
+    id: clf_grid
+    cols: 1
+    spacing: 0, 5
+    padding: 0, 0
+    size_hint_y: None
+    height: self.minimum_height
+    on_minimum_height: self.height=self.minimum_height
+    StdSettingSlider:
+        id: svm_c
+        title: 'SVM Regularization Parameter'
+        type: 'int'
+        desc: 'Set the regularization parameter to use in SVM case (log(10^x))'
+        value: -4
+        min: -10
+        max: 10
+    StdSettingItem:
+        id: item_svm_kernel
+        title: 'SVM Kernel'
+        desc: ''
+        Spinner:
+            id: svm_kernel
+            size_hint: None,None
+            size: 200,50
+            text: '< Select >'
+            values: ['Linear', 'Poly', 'Sigmoid', 'RBF']
+#                StdSettingSlider:
+#                    id: svm_gamma
+#                    title: 'SVM Gamma Parameter'
+#                    type: 'int'
+#                    desc: 'Set the gamma parameter to use in SVM case (log(10^x))'
+#                    value: -4
+#                    min: -10
+#                    max: 10
+
+
+<MLPparams>:
+#    id: clf_grid
+    cols: 1
+    spacing: 0, 5
+    padding: 0, 0
+    size_hint_y: None
+    height: self.minimum_height
+    on_minimum_height: self.height=self.minimum_height
+    StdSettingSlider:
+        id: mlp_eta
+        title: 'MLP learn rate'
+        desc: ''
+        type: 'float'
+        value: -3
+        min: -8
+        max: 1
+#                StdSettingSlider:
+#                    id: mlp_alpha
+#                    title: 'MLP Regularization Parameter'
+#                    type: 'float'
+#                    desc: ''
+#                    value: -4
+#                    min: -8
+#                    max: 1
+    StdSettingSlider:
+        id: mlp_hidden_neurons
+        title: 'MLP hidden layer neurons number'
+        type: 'int'
+        desc: 'Set the number of neurons in the hidden layer in MLP case'
+        value: 100
+        min: 10
+        max: 500
+    StdSettingSlider:
+        id: mlp_hidden_size
+        title: 'MLP hidden layers'
+        type: 'int'
+        desc: 'Set the number of neurons in the hidden layer in MLP case'
+        value: 1
+        min: 1
+        max: 5
+    StdSettingItem:
+        id: item_mlp_activation
+        title: 'MLP Activation Function'
+        desc: ''
+        Spinner:
+            id: mlp_activation
+            size_hint: None,None
+            size: 200,50
+            text: '< Select >'
+            values: ['identity','logistic','tanh','relu']
+    StdSettingItem:
+        id: item_mlp_solver
+        title: 'MLP Solver'
+        desc: ''
+        Spinner:
+            id: mlp_solver
+            size_hint: None,None
+            size: 200,50
+            text: '< Select >'
+            values: ['adam','sgd','lbfgs']
+
+
+#<DTREEparams>:
+#    id: clf_grid
+#    cols: 1
+#    spacing: 0, 5
+#    padding: 0, 0
+#    size_hint_y: None
+#    height: self.minimum_height
+#    on_minimum_height: self.height=self.minimum_height
+#    StdSettingItem:
+#        id: item_dtree_criterion
+#        title: 'Decision Tree Criterion'
+#        desc: ''
+#        Spinner:
+#            id: dtree_criterion
+#            size_hint: None,None
+#            size: 200,50
+#            text: '< Select >'
+#            values: ['gini', 'entropy']
+
+
+<PopupCalResults>:
+    orientation: 'vertical'
+#    title : "change title color"
+#    title_color: 1, 0, 0, 1    # red title
+    background_color: 1, 0, 0, 1
+    canvas.before:
+        Color:
+            rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+#        Rectangle:
+#            pos: self.pos
+#            size: self.size
+#    BoxLayout:
+#        orientation: 'vertical'
+#        canvas.before:
+#            Color:
+#                rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+#            Rectangle:
+#                pos: self.pos
+#                size: self.size
+#
+#        padding:10
+#        spacing:10

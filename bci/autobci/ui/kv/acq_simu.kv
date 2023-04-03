@@ -1,0 +1,381 @@
+<AcqSimu>:
+    on_pre_enter: if root.session.acq.flag_mode: root.load_saved_settings()
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        ScrollView:
+#            canvas:
+#                Color:
+#                    rgba: 0, 0, 0, 0
+#                Rectangle:
+#                    pos: self.pos
+#                    size: self.size
+            canvas.before:
+                Color:
+                    rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            StdSettingsContainer:
+                pos_hint: {'top': 1}
+                canvas.before:
+                    Color:
+                        rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                StdSettingTitle:
+                    title: 'Configuração da Aquisição Simulada'
+                    desc: 'Configuração dos requisitos de aquisição de sinais'
+                    color: 0,0,0,1
+                    bold: False
+                    font_size: 17
+                    canvas.before:
+                        Color:
+                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+#                StdSettingItem:
+#                    id: item_acq_board
+#                    title: 'Dispositivo de aquisição'
+#                    desc: 'Defina o equipamento de aquisição de sinais de EEG'
+#                    Spinner:
+#                        id: acq_board
+#                        size_hint: None,None
+#                        size: 200,50
+#                        text: '< Select >'
+#                        values: ['< Select >','OpenBCI Cyton']
+#                        on_text: root.update_settings()
+#                StdSettingString:
+#                    id: com_port
+#                    title: 'COM port'
+#                    desc: 'SPorta seria de conexão do dongle USB (padrão linux: /dev/ttyUSB0)'
+#                    value: '/dev/ttyUSB0'
+#                    disabled: True
+#                StdSettingBoolean:
+#                    id: daisy
+#                    title: 'Habilitar Daisy'
+#                    desc: 'Marque se quer usar os canais adicionais do módulo daisy do OpenBCI. (daisy deve estar conectada)'
+#                    button_text: 'Daisy'
+#                    value: False
+#                    on_value: srate.value = 125 if self.value else 250
+#                    disabled: True
+#                StdSettingSlider:
+#                    id: srate
+#                    title: 'Taxa de amostragem'
+#                    type: 'int'
+#                    desc: 'Taxa de amostragem em Hz do conjunto de entrada'
+#                    disabled: True
+#                    value: 250
+#                    min: 0
+#                    max: 1000
+#                StdSettingString:
+#                    id: ch_labels
+#                    title: 'Rótulos de canais'
+#                    desc: 'Informe os rótulos dos canais usados. ex: Cz C3 P3 P4'
+#                    value: ''
+#                    disabled: True
+
+
+                GridLayout:
+                    size_hint_y: None
+                    height: 70
+                    rows: 1
+                    canvas:
+                        Color:
+                            rgba: 0.149, 0.161, 0.204, 1 # 47 / 255., 167 / 255., 212 / 255., .1
+                        Rectangle:
+                            pos: self.x, self.y + 1
+                            size: self.size
+                        Color:
+                            rgb: .5, .4, .5
+                        Rectangle:
+                            pos: self.x, self.y - 2
+                            size: self.width, 1
+
+                    Label:
+                        size_hint_x: .6
+                        id: labellayout
+                        markup: True
+                        title: 'Caminho dos dados de EEG'
+                        desc: 'Arquivo para reprodução (.npy)'
+                        text: u'{0}\n[size=13sp][color=999999]{1}[/color][/size]'.format(self.title or '', self.desc or '')
+                        font_size: '15sp'
+                        text_size: self.size
+                        valign: 'top'
+                    AnchorLayout:
+#                        orientation: horizontal
+                        id: eeg_path
+                        size_hint_x: None
+                        width: 400
+                        value: input_eeg_path.text
+                        TextInput:
+                            id: input_eeg_path
+                            size_hint_y: None
+                            height: 30
+                            multiline: True
+                            text: eeg_path.value
+                            on_focus: root.update_settings()
+                    AnchorLayout:
+                        id: btn_explorer
+                        size_hint_x: None
+                        width: 30
+                        value: input_eeg_path.text
+                        Button:
+                            id: openex
+                            size_hint_y: None
+                            height: 30
+                            font_size: 10
+                            on_release: root.choose_eeg_path()
+                            text: '...'
+
+                StdSettingSlider:
+                    id: srate
+                    title: 'Taxa de amostragem dos dados (Hz)'
+                    type: 'int'
+                    desc: ''
+                    disabled: True
+                    value: 250
+                    min: 0
+                    max: 1000
+                StdSettingString:
+                    id: ch_labels
+                    title: 'Rótulos de canais'
+                    desc: 'Rótulos dos canais no usados na coleta'
+                    value: ''
+                    disabled: False
+
+#                StdSettingItem:
+#                    id: item_class_ids
+#                    title: 'Rótulos de classes de tarefas motoras'
+#                    desc: 'Par de rótulos usados na extração de épocas de EEG\nPadrão: 1 = ME   2 = MD'
+#                    disabled: True
+#                    Spinner:
+#                        id: class_ids
+#                        disabled: True
+#                        size_hint: None,None
+#                        size: 200,40
+#                        text: '1 2' # '< Select >'
+#                        values: ''
+#                        on_text: root.update_settings()
+
+#                StdSettingBoolean:
+#                    id: dummy_data
+#                    title: 'Use Dummy Data' #u'Usar Dados fict\u00edcios?'
+#                    #u'Produz dados fict\u00edcios simulando uma placa OpenBCI com m\u00f3dulo daisy acoplado'
+#                    desc: 'Output dummy data by simulating an OpenBCI board with daisy module'
+#                    value: False
+#                    on_value:
+#                        if self.value: srate.value = 125
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                StdSettingTitle:
+                    title: 'Integração com conjuntos de dados públicos de EEG'
+#                    desc: ''
+                    color: 0,0,0,1
+                    bold: False
+                    font_size: 17
+                    canvas.before:
+                        Color:
+                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                StdSettingItem:
+                    id: item_check_public
+                    title: 'Utilizar um conjunto público de dados?'
+                    desc: 'Marque para converter e reproduzir a partir de dados públicos de EEG'
+                    Switch:
+                        center_y: 0.5
+                        id: check_public
+                        active: False
+                        size_hint: None,1
+                        on_touch_down: root.enabled_publics()
+                        on_touch_move: root.enabled_publics() #simu_data_path.disabled = False if self.active else True
+                        on_touch_up: root.enabled_publics() #simu_data_path.disabled = False if self.active else True
+
+#                StdSettingItem:
+#                    id: item_simulator
+#                    title: 'Simulate Acquisition?'
+#                    desc: 'Check to simulate from other eeg data'
+#                    Switch:
+#                        id: simulator
+#                        active: False
+#                        size_hint: None,None
+#                        on_touch_down: root.update_settings()
+#                        on_touch_move: root.update_settings() #simu_data_path.disabled = False if self.active else True
+#                        on_touch_up: root.update_settings() #simu_data_path.disabled = False if self.active else True
+
+#                GridLayout:
+#                    size_hint_y: None
+#                    height: 70
+#                    rows: 1
+#                    canvas:
+#                        Color:
+#                            rgba: 47 / 255., 167 / 255., 212 / 255., .1
+#                        Rectangle:
+#                            pos: self.x, self.y + 1
+#                            size: self.size
+#                        Color:
+#                            rgb: .2, .2, .2
+#                        Rectangle:
+#                            pos: self.x, self.y - 2
+#                            size: self.width, 1
+
+                StdSettingItem:
+                    id: item_dataset
+                    title: 'Conjunto de dados'
+                    desc: 'Escolha um dos conjuntos de dados públicos'
+    #                disabled: True if root.parent.parent.mode_menu.belongs_dataset.active else False
+                    Spinner:
+                        id: field_dataset
+                        size_hint: None,None
+                        size: 200,40
+                        text: '< Select >'
+                        values: root.ds_list
+                        on_text: root.update_subject_values()
+
+                StdSettingItem:
+                    id: item_subject
+                    title: 'Sujeito'
+                    desc: 'Informe o sujeito associado aos dados'
+                    Spinner:
+                        id: field_subject
+                        size_hint: None,None
+                        size: 200,40
+                        text: '< Select >'
+                        values: ''
+                        on_text: root.try_load_dataset()
+
+                StdSettingSlider:
+                    id: field_dataset_srate
+                    title: 'Taxa de amostragem dos dados (Hz)'
+                    type: 'int'
+#                    desc: ''
+                    value: 250
+                    min: 0
+                    max: 1000
+                    disabled: True
+
+                GridLayout:
+                    id: path_to_original_dataset
+                    size_hint_y: None
+                    height: 70
+                    rows: 1
+                    canvas:
+                        Color:
+                            rgba: 0.149, 0.161, 0.204, 1 # 47 / 255., 167 / 255., 212 / 255., .1
+                        Rectangle:
+                            pos: self.x, self.y + 1
+                            size: self.size
+                        Color:
+                            rgb: .5, .4, .5
+                        Rectangle:
+                            pos: self.x, self.y - 2
+                            size: self.width, 1
+                    Label:
+                        size_hint_x: .6
+                        id: labellayout
+                        markup: True
+                        title: 'Arquivo original de dados'
+                        desc: '(formato .gdf ou .mat)'
+                        text: u'{0}\n[size=13sp][color=999999]{1}[/color][/size]'.format(self.title or '', self.desc or '')
+                        font_size: '15sp'
+                        text_size: self.size
+                        valign: 'top'
+                    AnchorLayout:
+#                        orientation: horizontal
+                        id: eeg_dataset_path
+                        size_hint_x: None
+                        width: 400
+                        value: input_eeg_ds_path.text
+                        TextInput:
+                            id: input_eeg_ds_path
+                            size_hint_y: None
+                            height: 30
+                            multiline: True
+                            text: eeg_dataset_path.value
+                            on_focus: root.try_load_dataset()
+                    AnchorLayout:
+                        id: btn_explorer2
+                        size_hint_x: None
+                        width: 30
+                        value: input_eeg_ds_path.text
+                        Button:
+                            id: openex
+                            size_hint_y: None
+                            height: 30
+                            font_size: 10
+                            on_release: root.choose_eeg_ds_path()
+                            text: '...'
+#                    AnchorLayout:
+#                        size_hint_x: None
+#                        width: 90
+#                        Button:
+#                            id: btn_convert
+#                            font_size: 16
+#                            size_hint_y: None
+#                            disabled: True
+#                            height: 30
+##                            size: 60,40
+#                            text: 'Converter'
+#                            on_press: root.convert_dataset()
+
+################################################################################################
+
+        GridLayout:
+            rows: 1
+            size_hint: (1, None)
+            height: 50
+            spacing: 5
+            padding: 5
+#            Button:
+#                font_size: 20
+#                text: 'Voltar'
+#                on_press: root.back_to_bci()
+#            Button:
+#                id: btn_next_step_acq
+#                disabled: True
+#                font_size: 20
+#                text: 'Salvar e Progredir'
+#                on_press: root.change_to_acq_protocol()
+
+            canvas:
+                Color:
+                    rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                Rectangle:
+                    size:self.size
+                    pos:self.pos
+            MySmoothButton:
+                font_size: 20
+                text: 'Voltar'
+                color: 0.149, 0.161, 0.204, 1
+                on_press: root.back_to_bci()
+
+                back_color: (0.878, 0.984, 0.984, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+                border_radius: [18,2,2,18]
+
+            MySmoothButton:
+                id: btn_convert
+                font_size: 20
+                text: 'Converter'
+                color: 0.149, 0.161, 0.204, 1
+                on_press: root.convert_dataset()
+                disabled: True
+                back_color: (0.878, 0.984, 0.984, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+                border_radius: [2,2,2,2]
+
+            MySmoothButton:
+                id: btn_next_step_acq
+                font_size: 20
+                text: 'Salvar e Prosseguir'
+                color: 0.149, 0.161, 0.204, 1
+                on_press: root.change_to_acq_protocol()
+                back_color: (0.878, 0.984, 0.984, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+                border_radius: [2,18,18,2]

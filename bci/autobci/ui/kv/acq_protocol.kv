@@ -1,0 +1,153 @@
+<AcqProtocol>:
+    on_pre_enter: if root.session.acq.flag_mode and root.session.acq.flag_protocol: root.update_settings()
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        #ScreenManager:
+            #Screen:
+        ScrollView:
+#            canvas:
+#                Color:
+#                    rgba: 0, 0, 0, 0
+#                Rectangle:
+#                    pos: self.pos
+#                    size: self.size
+            canvas.before:
+                Color:
+                    rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            StdSettingsContainer:
+                pos_hint: {'top': 1}
+                canvas.before:
+                    Color:
+                        rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                StdSettingTitle:
+                    title: 'Configuração do Protocolo de Aquisição'
+#                    desc: 'Set config for input data'
+                    color: 0,0,0,1
+                    bold: False
+                    font_size: 17
+                    canvas.before:
+                        Color:
+                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                StdSettingSlider:
+                    id: n_runs
+                    title: 'Número de Execuções'
+                    type: 'int'
+                    desc: 'Cada execução equivale a um conjunto de tentativas de IM'
+                    value: 2 #4
+                    min: 1
+                    max: 200
+                StdSettingSlider:
+                    id: n_trials
+                    title: 'Número de tentativas por execução'
+                    type: 'int'
+                    desc: 'Número total de tentativas em cada execução (obrigatório ser PAR)' #
+                    value: 4 #14
+                    min: 1
+                    max: 200
+                StdSettingSlider:
+                    id: cue_offset
+                    title: 'Início da dica (s)'
+                    type: 'float'
+                    desc: 'Momento em segundos que marca o inicio da apresentação da dica'
+                    value: 3
+                    min: 1
+                    max: 20
+                    on_touch_move: trial_duration.value = cue_offset.value + cue_time.value + pause_min.value + 1   # root.update_trial_duration()
+                    on_touch_up: trial_duration.value = cue_offset.value + cue_time.value + pause_min.value + 1     # root.update_trial_duration()
+                    on_touch_down: trial_duration.value = cue_offset.value + cue_time.value + pause_min.value + 1   # root.update_trial_duration()
+                StdSettingSlider:
+                    id: cue_time
+                    title: 'Duração da dica (s)'
+                    type: 'float'
+                    desc: 'Tempo em segundos em que a dica permanece na tela'
+                    value: 6
+                    min: 1
+                    max: 20
+                    on_touch_move: trial_duration.value = cue_offset.value + cue_time.value + pause_min.value + 1   # root.update_trial_duration()
+                    on_touch_up: trial_duration.value = cue_offset.value + cue_time.value + pause_min.value + 1     # root.update_trial_duration()
+                    on_touch_down: trial_duration.value = cue_offset.value + cue_time.value + pause_min.value + 1   # root.update_trial_duration()
+                StdSettingSlider:
+                    id: pause_min
+                    title: 'Duração da pausa curta (s)'
+                    type: 'float'
+                    desc: 'Duração mínima em segundos da pausa entre tentativas'
+                    value: 3
+                    min: 1
+                    max: 20
+                    on_touch_move: trial_duration.value = cue_offset.value + cue_time.value + pause_min.value + 1   # root.update_trial_duration()
+                    on_touch_up: trial_duration.value = cue_offset.value + cue_time.value + pause_min.value + 1     # root.update_trial_duration()
+                    on_touch_down: trial_duration.value = cue_offset.value + cue_time.value + pause_min.value + 1   # root.update_trial_duration()
+                StdSettingSlider:
+                    id: runs_interval
+                    title: 'Duração da pausa longa (s)'
+                    type: 'float'
+                    desc: 'Duração em segundos da pausa entre execuções'
+                    value: 10 #30
+                    min: 0
+                    max: 120
+                StdSettingSlider:
+                    id: trial_duration
+                    title: 'Duração da tentativa (s)'
+                    type: 'float'
+                    desc: 'Duração em segundos de cada tentativa'
+                    value: 8
+                    min: cue_offset.value + cue_time.value + pause_min.value + 1
+                    max: 62
+                    disabled: True
+        GridLayout:
+            rows: 1
+            size_hint: (1, None)
+            height: 50
+            spacing: 5
+            padding: 5
+#            Button:
+#                font_size: 20
+#                text: 'Back'
+#                on_press: root.back_to_mode()
+#            Button:
+#                font_size: 20
+#                text: 'Save & Run'
+#                on_press: root.run_acq()
+
+            canvas:
+                Color:
+                    rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                Rectangle:
+                    size:self.size
+                    pos:self.pos
+            MySmoothButton:
+                font_size: 20
+                text: 'Voltar'
+                color: 0.149, 0.161, 0.204, 1
+                on_press: root.back_to_mode()
+    #                size_hint_y: None
+    #                size: 150,self.parent.height
+                back_color: (0.878, 0.984, 0.984, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+    #                border_radius: 10 # [18,2,2,18]
+                border_radius: [18,2,2,18]
+
+            MySmoothButton:
+                id: btn_next_step_acq
+                font_size: 20
+                text: 'Salvar e Prosseguir'
+                color: 0.149, 0.161, 0.204, 1
+                on_press: root.run_acq()
+    #                size_hint_y: None
+    #                size: 150,self.parent.height
+                back_color: (0.878, 0.984, 0.984, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+                border_radius: [2,18,18,2]

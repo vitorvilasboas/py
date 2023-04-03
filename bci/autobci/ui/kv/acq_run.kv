@@ -1,0 +1,135 @@
+<AcqRun>:
+    carousel: carrossel
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+        padding: 0
+        canvas:
+            Color:
+                rgba: 185, 182, 183, 0.67 # 128, 128, 128, 0.5
+            Rectangle:
+                size:self.size
+                pos:self.pos
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 30
+            padding: 20
+#            BoxLayout:
+#                id: bar_left
+#                size_hint_x: 0.1
+#                canvas:
+#                    Color:
+#                        rgba: 1,1,0,1
+#                    Line:
+#                        width: 2
+#                        points:
+#                            (0, self.pos[1] + self.size[1]*0.8, \
+#                            self.size[0]/2, self.pos[1] + self.size[1]*0.8)
+#                    Color:
+#                        rgba: 1,1,1,1
+#                    Line:
+#                        width: 2
+#                        points:
+#                            (0, self.pos[1] + self.size[1], \
+#                            self.size[0]/2, self.pos[1] + self.size[1])
+#                Bar:
+#                    orientation: 'bt'
+#                    color: root.accum_color_left
+#                    animated: False
+#                    value: root.inst_prob_left
+            RelativeLayout:
+                size_hint_x: 0.8
+                Carousel:
+                    id: carrossel
+                    direction: 'right'
+                    Image:
+                        id: cross
+                        source: root.fig_list[0]
+                    Image:
+                        id: aleft
+                        source: root.fig_list[1]
+                    Image:
+                        id: aright
+                        source: root.fig_list[2]
+                    Image:
+                        id: blank
+                        source: root.fig_list[3]
+                    Image:
+                        id: break
+                        source: root.fig_list[4]
+#            BoxLayout:
+#                size_hint_x: 0.1
+#                canvas:
+#                    Color:
+#                        rgba: 1,1,0,1
+#                    Line:
+#                        width: 2
+#                        points:
+#                            (self.size[0]/2 + self.pos[0], self.pos[1] + self.size[1]*0.8, \
+#                            root.size[0], self.pos[1] + self.size[1]*0.8)
+#                    Color:
+#                        rgba: 1,1,1,1
+#                    Line:
+#                        width: 2
+#                        points:
+#                            (self.size[0]/2 + self.pos[0], self.pos[1] + self.size[1], \
+#                            root.size[0], self.pos[1] + self.size[1])
+#                Bar:
+#                    orientation: 'bt'
+#                    color: root.accum_color_right
+#                    animated: False
+#                    value: root.inst_prob_right
+        GridLayout:
+            rows: 1
+            size_hint: (1, None)
+            height: 30
+            spacing: 0
+            padding: 0
+#            Button:
+#                font_size: 20
+#                text: 'Back'
+#                on_press: root.back_to_acq()
+#            Button:
+#                font_size: 20
+#                text: root.button_stream
+#                on_press: root.toggle_stream()
+
+            canvas:
+                Color:
+                    rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                Rectangle:
+                    size:self.size
+                    pos:self.pos
+            MySmoothButton:
+                font_size: 16
+                text: 'Voltar'
+                color: 0.878, 0.984, 0.984, 1
+                on_press: root.back_to_acq()
+                back_color: (0.149, 0.161, 0.204, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+                border_radius: [18,2,2,18]
+
+            MySmoothButton:
+                id: btn_next_step_acq
+                font_size: 16
+                text: root.button_stream
+                color: 0.878, 0.984, 0.984, 1
+                on_press: root.toggle_stream()
+                back_color: (0.149, 0.161, 0.204, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+                border_radius: [2,18,18,2]
+
+<AcqSavePopup>:
+    size_hint: None, None
+    size: 300, 250
+    title: 'Armazenar aquisição'
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            TextInput:
+                id: save_name
+                hint_text: 'Salvar como'
+        BoxLayout:
+            orientation: 'horizontal'
+            Button:
+                text: 'Salvar dados e meta-dados'
+                on_press: if save_name.text != '': root.save_acquisition(save_name.text)
+                on_release: if save_name.text != '': root.dismiss()

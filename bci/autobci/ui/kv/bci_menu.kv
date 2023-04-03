@@ -1,0 +1,179 @@
+<BCIMenu>:
+    on_pre_enter: root.update_screen()
+    #on_enter: if root.session.info.flag: root.update_screen()
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+#        canvas:
+#            Color:
+#                rgba: 185, 182, 183, 0.67 # 128, 128, 128, 0.5
+#            Rectangle:
+#                size:self.size
+#                pos:self.pos
+        canvas.before:
+            Color:
+                rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            id: box
+            orientation: 'vertical'
+            spacing: 20
+            padding: 20
+            size_hint: None, None
+            size: self.minimum_size
+#            Label:
+#                font_size: 20
+#                text: 'BCI Menu'
+
+            Button:
+                size_hint: None, None
+                size: 200,50
+                font_size: 17
+                id: acq_real_button
+                text: 'Aquisição Real'
+                color: 0.149, 0.161, 0.204, 1
+                background_color: (0,0,0,0)
+                background_normal: ''
+                on_press: root.change_to_acq_real()
+                canvas.before:
+                    Color:
+                        rgba: (0.878, 0.984, 0.984, 1)
+                    RoundedRectangle:
+                        size: 200,50
+                        pos: self.pos
+                        radius: [14,14,14,14]
+
+            Button:
+                size_hint: None, None
+                size: 200,50
+                font_size: 17
+                id: acq_simu_button
+                text: 'Aquisição Simulada'
+                color: 0.149, 0.161, 0.204, 1
+                background_color: (0,0,0,0)
+                background_normal: ''
+                on_press: root.change_to_acq_simu()
+                canvas.before:
+                    Color:
+                        rgba: (0.878, 0.984, 0.984, 1)
+                    RoundedRectangle:
+                        size: 200,50
+                        pos: self.pos
+                        radius: [14,14,14,14]
+
+
+            Button:
+                size_hint: None, None
+                size: 200,50
+                font_size: 17
+                id: cal_button ###
+                text: 'Calibração' ###
+                color: 0.149, 0.161, 0.204, 1
+                background_color: (0,0,0,0)
+                background_normal: ''
+                on_press: root.change_to_calibration() ###
+                canvas.before:
+                    Color:
+                        rgba: (0.878, 0.984, 0.984, 1)
+                    RoundedRectangle:
+                        size: 200,50
+                        pos: self.pos
+                        radius: [14,14,14,14]
+
+            Button:
+                size_hint: None, None
+                size: 200,50
+                font_size: 17
+                id: command_button
+                text: root.label_command #'Live Command'
+                color: 0.149, 0.161, 0.204, 1
+                background_color: (0,0,0,0)
+                background_normal: ''
+                on_press: root.change_to_command()
+                canvas.before:
+                    Color:
+                        rgba: (0.878, 0.984, 0.984, 1)
+                    RoundedRectangle:
+                        size: 200,50
+                        pos: self.pos
+                        radius: [14,14,14,14]
+
+            Button:
+                size_hint: None, None
+                size: 200,50
+                font_size: 17
+                on_press: root.exit()
+                text: 'Sair'
+                background_color: (0,0,0,0)
+                background_normal: ''
+                border_radius: 18
+                color: 0.878, 0.984, 0.984, 1
+                bold: True
+            #    color: self.back_color
+                canvas.before:
+                    Color:
+                        rgba: 0.878, 0.984, 0.984, 1
+                    Line:
+                        rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], self.border_radius)
+                        width: 1.2
+
+#            Button:
+#                id: acq_real_button
+#                text: 'Aquisição Real'
+#                on_press: root.change_to_acq_real()
+#                size_hint: None,None
+#                size: 200,50
+#            Button:
+#                id: acq_simu_button
+#                text: 'Aquisição Simulada'
+#                on_press: root.change_to_acq_simu()
+#                size_hint: None,None
+#                size: 200,50
+#            Button:
+#                text: 'Calibração'
+#                on_press: root.change_to_calibration()
+#                size_hint: None,None
+#                size: 200,50
+#            Button:
+#                id: command_button
+#                text: root.label_command #'Live Command'
+#                on_press: root.change_to_command()
+#                size_hint: None,None
+#                size: 200,50
+#            Button:
+#                text: 'Sair'
+#                on_press: root.exit()
+#                size_hint: None,None
+#                size: 200,50
+
+<SmoothButton@Button>:
+    background_color: (0,0,0,0)
+    background_normal: ''
+    back_color: (1, 0, 1, 1)
+    border_radius: [18]
+#    bold: True
+#    color: self.back_color
+    canvas.before:
+        Color:
+            rgba: self.back_color
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: self.border_radius
+
+<StrokeButton@Button>:
+    background_color: (0,0,0,0)
+    background_normal: ''
+    back_color: (1, 0, 1, 1)
+    border_radius: 18
+    color: self.back_color
+    bold: True
+#    color: self.back_color
+    canvas.before:
+        Color:
+            rgba: self.back_color
+        Line:
+            rounded_rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1], self.border_radius)
+            width: 1.2

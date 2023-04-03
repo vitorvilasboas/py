@@ -1,0 +1,23 @@
+TESTE DE HIPÓTESES - PASSO A PASSO:
+
+1) Escreva a hipótese nula (H0) e a hipótese alternativa (Ha). 
+
+2) Calcule o valor observado (zobs, tobs,...) utilizando a fórmula correspondente ao caso que está analisando.
+
+3) Faça um gráfico da distribuição amostral. De acordo com a hipótese alternativa, marque a região crítica (RC) do teste:
+
+4) Obtenha o valor crítico do teste (zc, tc,...) de acordo com o nível descritivo do teste ( ) e com a região crítica (RC) utilizando a tabela da distribuição correspondente (Normal, t de Student,...). Marque esse valor no gráfico.
+
+5) Marque o valor observado (zobs, tobs,...) no gráfico.
+
+6) Conclua o teste:
+
+– se o valor observado pertence  RC, então rejeite H0 (aceite Ha);
+
+– se o valor observado não pertence  RC, então aceite H0 (rejeite Ha).
+
+7) Interprete, em palavras, a conclusão feita.
+
+
+
+

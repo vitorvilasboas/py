@@ -1,0 +1,111 @@
+--------------------------------------------------------------------------
+# Configuração do ambiente via anaconda no linux
+--------------------------------------------------------------------------
+- Instalar python:
+    python -V
+    ls /usr/bin | grep python
+    sudo apt-get update && sudo apt-get upgrade
+    sudo apt-get install python3 python3-pip python3-dev git
+    sudo ln -sf /usr/bin/python3.8 /usr/bin/python
+    sudo apt-get install -y python3-pip libglib2.0-dev sox xclip xsel build-essential libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev libportmidi-dev libswscale-dev libavformat-dev libavcodec-dev zlib1g-dev ffmpeg
+    sudo chmod 777 /dev/input/event*
+
+- Instalar e preparar Anaconda (opcional):
+	sudo chmod +x arquivo_instalacao_anaconda.sh
+	./arquivo_instalacao_anaconda.sh
+	source ~/.bashrc
+	conda list
+	conda update -n base -c defaults conda
+	conda create --name nome_ambiente python=3.x
+	conda activate nome_ambiente
+	conda install -c conda-forge xorg-libx11
+
+- Instalar e preparar virtualenv (opcional):
+	sudo pip3 install --upgrade pip virtualenv setuptools
+	sudo pip3 install virtualenvwrapper
+	editar variáveis de ambiente:
+		nano .bashrc (incluir no final do arquivo):
+			export WORKON_HOME=~/.virtualenvs
+			source /usr/local/bin/virtualenvwrapper.sh
+			export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+			export PIP_REQUIRE_VIRTUALENV=true
+	mkvirtualenv -p /usr/bin/python3.8 pyenv38
+	lsvirtualenv
+	deactivate
+	workon pyenv38
+
+- Realizar download do repositório 'autobci'
+
+- Instalar módulos e dependências (python 3.7+):
+
+	python -m pip install -r requirements.txt 
+
+	ou
+
+	python -m pip freeze > requirements.txt
+
+	ou
+
+    python -m pip install pygments
+    python -m pip install setuptools
+	python -m pip install numpy
+	python -m pip install scipy
+	python -m pip install pandas
+	python -m pip install -U scikit-learn (==0.21.3)
+	python -m pip install matplotlib
+	python -m pip install pygame
+	python -m pip install pyautogui
+	python -m pip install plyer
+	python -m pip install bluepy
+	python -m pip install serial
+	python -m pip install pyserial
+	python -m pip install hyperopt
+	python -m pip install xorg-libx11
+	python -m pip install mne
+	python -m pip install pyOpenBCI
+	python -m pip install cython==0.29.14
+	
+	sudo apt -y install software-properties-common dirmngr apt-transport-https lsb-release ca-certificates
+    sudo add-apt-repository ppa:kivy-team/kivy-daily
+    sudo apt-get update
+	
+	python -m pip install kivy>=1.11.1
+	python -m pip install kivy-garden
+	python -m pip install kivy-garden.graph
+
+- Executar o autobci a partir da pasta do sistema:
+	python main.py
+
+
+
+--------------------------------------------------------------------------
+# Alternativas Kivy/mne
+--------------------------------------------------------------------------
+python -m pip install git+https://github.com/kivy/kivy (conda install -c conda-forge kivy)
+python -m pip install https://github.com/mne-tools/mne-python 
+python -m pip install -U https://api.github.com/repos/mne-tools/mne-python/zipball/master
+
+
+Download https://www.lfd.uci.edu/~gohlke/pythonlibs/#kivy (for windows)
+python -m pip install versao_kivy_baixada.whl (for windows)
+conda install -c krisvanneste kivy=1.8.0 (for windows)
+
+conda install --channel https://conda.anaconda.org/jiayi_anaconda kivy (linux/mac)
+conda install -c conda-forge/label/cf201901 kivy (linux/mac)
+conda install -c moritzimend kivy=1.9.0 (linux/mac)
+	
+https://kivy.org/doc/stable/installation/installation-windows.html:
+	python -m pip install --upgrade pip wheel setuptools
+	python -m pip install docutils pygments pypiwin32 kivy.deps.sdl2 kivy.deps.glew
+	python -m pip install kivy.deps.gstreamer
+	python -m pip install kivy
+
+--------------------------------------------------------------------------
+# Criar executável da aplicação python no windows
+--------------------------------------------------------------------------
+
+garden install Bar --kivy
+
+pyinstaller --clean --hidden-import="sklearn.utils._cython_blas" --hidden-import="sklearn.neighbors.typedefs" --hidden-import="sklearn.neighbors.quad_tree" --hidden-import="sklearn.tree._utils" --hidden-import="scipy.special.cython_special" --hidden-import="cython" --hidden-import="pymysql" --hidden-import="pandas._libs.tslibs.timedeltas" --hidden-import="sklearn.utils.typedefs" --hidden-import="kivy.garden" --hidden-import="kivy.bar" main.py
+
+dist\main\garden install --app Bar

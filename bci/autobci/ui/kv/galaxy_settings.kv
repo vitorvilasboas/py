@@ -1,0 +1,330 @@
+<GalaxySettings>:
+    on_pre_enter: if root.session.control.flag: root.update_settings()
+    #    % delta_t = 0.1  % Taxa de envio do buffer para classificação
+    #    % limiar comando = ac_val offline
+    #    % tempo de acao (tta) = 2
+    #    % overlap check comando = 0.5 (shadow)
+    #    % tempo check comando = tta - (tta * overlap) = 1
+    #    % qtd epocas classificadas buffer = int((1/delta_t) * tta)
+
+    #    % pausa = 2 + tta (obstáculo visível)
+    #    % tempo resposta comando (duracao arrasto da nave) = 0.8 seg
+    #    % nave velocidade vertical (desloc. constante por seg) = 6(10 - tta) px/seg
+    #    % nave velocidade horizontal (desloc. por comando) = 120px/seg
+    #    % save_targets (posicao da nave no eixo x para objetivo ok) = 160 ou 640
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        ScrollView:
+            canvas.before:
+                Color:
+                    rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            StdSettingsContainer:
+                id: cfg_space
+                canvas.before:
+                    Color:
+                        rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+                StdSettingTitle:
+                    title: 'Configurações dos Parâmetros de Controle'
+#                    desc: 'Set general control parameters'
+                    color: 0,0,0,1
+                    bold: False
+                    font_size: 17
+                    canvas.before:
+                        Color:
+                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                StdSettingSlider:
+                    id: tempo_buffer_entrada
+                    title: r'Largura do Buffer de entrada em segundos'
+                    type: 'float'
+                    desc: 'Define o intervalo temporal do Buffer de entrada'
+                    value: 2 # int(epoch_end.value * root.srate) - int(epoch_start.value * root.srate)
+                    min: 0
+                    max: 5
+                    disabled: False
+
+                StdSettingSlider:
+                    id: amostras_buffer_entrada
+                    title: r'Largura do Buffer de entrada em amostras'
+                    type: 'int'
+                    desc: 'Função da largura em segundos e taxa de amostragem' # Número de amostras por canal no Buffer de entrada\n
+                    value: 500 #int(epoch_end.value * root.srate) - int(epoch_start.value * root.srate)
+                    min: 0
+                    max: 2000
+                    disabled: True
+
+                StdSettingSlider:
+                    id: taxa_processamento_on
+                    title: r'Taxa de envio para processamento em segundos (Padrão: 0,1)'
+                    type: 'float'
+                    desc: 'Define o intervalo em que uma nova instância do Buffer de entrada é enviado para processamento'
+                    value: 0.1 #int(epoch_end.value * root.srate) - int(epoch_start.value * root.srate)
+                    min: 0
+                    max: 4
+                    disabled: False
+
+                StdSettingSlider:
+                    id: tempo_acao
+                    title: 'Tempo de ação em segundos (Padrão: 2)'
+                    type: 'float'
+                    desc: 'Define o atraso temporal para composição do buffer de decisão'
+                    value: 2
+                    min: 0
+                    max: 5
+                    disabled: False
+
+                StdSettingSlider:
+                    id: comprimento_buffer_decisao
+                    title: 'Comprimento do Buffer de decisão por número de predições (Padrão: 20)'
+                    type: 'int'
+                    desc: 'Função do tempo de ação e da taxa de envio' # Número de classificações utilizadas na tomada de decisão para disparo de comando\n
+                    value: 20
+                    min: 0
+                    max: 100
+                    disabled: True
+
+                StdSettingSlider:
+                    id: limiar_disparo
+                    title: 'Limiar de disparo em % (Padrão: acurácia de validação off-line)'
+                    type: 'float'
+                    desc: 'Define a predominância mínima entre as classes para disparo de um sinal de comando'
+                    value: 85
+                    min: 40
+                    max: 100
+                    disabled: False
+
+                StdSettingSlider:
+                    id: tempo_check
+                    title: 'Tempo entre checagens de comando em segundos (Padrão: 1)'
+                    type: 'float'
+                    desc: 'Define a periodicidade em que o disparo de um novo comando é avaliado'
+                    value: 1
+                    min: 0
+                    max: 4
+                    disabled: False
+
+                StdSettingSlider:
+                    id: overlap_decisao
+                    title: 'Sobreposição entre buffers de decisão consecutivos em % (Padrão: 50%)'
+                    type: 'int'
+                    desc: 'Função do tempo entre checagens e do comprimento do buffer de decisão'
+                    value: 50
+                    min: 0
+                    max: 100
+                    disabled: True
+
+# -----------------------
+
+                StdSettingTitle:
+                    title: 'Configurações de Jogo (ICM Space Game)'
+#                    desc: 'Set Target game parameters'
+                    color: 0,0,0,1
+                    bold: False
+                    font_size: 17
+                    canvas.before:
+                        Color:
+                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+                StdSettingSlider:
+                    id: num_rodadas
+                    title: 'Número de sessões'
+                    type: 'int'
+                    desc: 'Define o número de sessões de jogo (cada qual com múltiplas tentativas)'
+                    value: 5
+                    min: 1
+                    max: 50
+                    disabled: False
+
+                StdSettingSlider:
+                    id: intervalo_rodadas
+                    title: 'Intervalo entre sessões em segundos'
+                    type: 'float'
+                    desc: 'Define o intervalo entre duas sessões consecutivas de jogo'
+                    value: 30
+                    min: 0
+                    max: 300
+                    disabled: False
+
+                StdSettingSlider:
+                    id: num_rounds
+                    title: 'Número de tentativas de controle (alvos) por sessão'
+                    type: 'int'
+                    desc: 'Define a quantidade de partidas jogadas em uma única sessão'
+                    value: 20
+                    min: 1
+                    max: 50
+                    disabled: False
+
+                StdSettingSlider:
+                    id: espera_round
+                    title: 'Tempo de espera para início da tentativa em segundos'
+                    type: 'float'
+                    desc: 'Define o intervalo entre o aparecimento do alvo e a liberação para controle do cursor'
+                    value: 5
+                    min: 1
+                    max: 20
+                    disabled: False
+
+                StdSettingItem:
+                    id: item_dim_tela
+                    title: 'Dimensões da tela em pixeis'
+                    desc: ''
+                    Spinner:
+                        id: dim_tela
+                        size_hint: None,None
+                        size: 200,50
+                        text: '< Select >'
+                        values: ['640 x 480','720 x 480','800 x 600','1024 x 768']
+
+                StdSettingSlider:
+                    id: pos_target_left
+                    title: 'Posição do alvo esquerdo em %'
+                    type: 'float'
+                    desc: 'Define a coordenada horizontal do alvo em relação ao extremo esquerdo \nProporcional às dimensões da tela'
+                    value: 20
+                    min: 1
+                    max: 50
+                    disabled: False
+
+                StdSettingSlider:
+                    id: pos_target_right
+                    title: 'Posição do alvo direito em %'
+                    type: 'float'
+                    desc: 'Define a coordenada horizontal do alvo em relação ao extremo direito \nProporcional às dimensões da tela'
+                    value: 20
+                    min: 1
+                    max: 50
+                    disabled: False
+
+                StdSettingSlider:
+                    id: desloc_horizontal_comando
+                    title: 'Deslocamento horizontal do cursor por comando em pixeis/segundo (Padrão: 120)'
+                    type: 'int'
+                    desc: 'Define o percurso completo do cursor na tela na direção de cada comando'
+                    value: 150
+                    min: 10
+                    max: 300
+                    disabled: False
+
+                StdSettingSlider:
+                    id: arrasto_horizontal
+                    title: 'Velocidade de arrasto horizontal do cursor em pixeis/segundo (Padrão: 150)'
+                    type: 'int'
+                    desc: 'Define a taxa de reprodução completa do sinal de comando em segundos'
+                    value: 150
+                    min: 10
+                    max: 300
+                    disabled: False
+
+                StdSettingSlider:
+                    id: desloc_vertical_asteroid
+                    title: 'Velocidade de aproximação vertical do obstáculo em pixeis/segundo'
+                    type: 'int'
+                    desc: 'Define o deslocamento do obstáculo em direção à parte inferior da tela'
+                    value: 40
+                    min: 5
+                    max: 150
+                    disabled: False
+
+
+#                StdSettingBoolean:
+#                    id: keyb_enable
+#                    title: 'Keyboard Control'
+#                    desc: 'Check if you want to enable control by keyboard (prob calc will be disabled)'
+#                    value: False
+# -----------------------
+#                StdSettingSlider:
+#                    id: warning_threshold
+#                    title: 'Limiar de aviso/alerta (\%)'
+#                    type: 'int'
+#                    desc: 'porcentagem do limiar de ação em que um aviso é exibido'
+#                    value: 80
+#                    min: 0
+#                    max: 100
+#                StdSettingBoolean:
+#                    id: inst_prob
+#                    title: 'Instant Probability Bar'
+#                    desc: 'Check if you want to display the instant probability bars'
+#                    button_text: 'Inst prob'
+#                    value: False
+
+#                StdSettingTitle:
+#                    title: 'Action Settings'
+#                    desc: 'Set action parameters'
+#                    color: 0,0,0,1
+#                    bold: False
+#                    font_size: 17
+#                    canvas.before:
+#                        Color:
+#                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+#                        Rectangle:
+#                            pos: self.pos
+#                            size: self.size
+#                StdSettingString:
+#                    id: action_cmd1
+#                    title: 'Linux Command for class 1'
+#                    desc: 'Command (linux) to be executed when threshold 1 is reached'
+#                    value: ''
+#                StdSettingString:
+#                    id: action_cmd2
+#                    title: 'Linux Command for class 2'
+#                    desc: 'Command (linux) to be executed when threshold 2 is reached'
+#                    value: ''
+        GridLayout:
+            rows: 1
+            size_hint: (1, None)
+            height: 50
+            spacing: 5
+            padding: 5
+#            Button:
+#                font_size: 20
+#                text: 'Back'
+#                size: 430,50
+#                on_press: root.back_to_galaxy_menu()
+#            Button:
+#                font_size: 20
+#                text: 'Save'
+#                size: 430,50
+#                on_press: root.save_config()
+
+            canvas:
+                Color:
+                    rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                Rectangle:
+                    size:self.size
+                    pos:self.pos
+            MySmoothButton:
+                font_size: 20
+                text: 'Voltar'
+                color: 0.149, 0.161, 0.204, 1
+                on_press: root.back_to_galaxy_menu()
+                back_color: (0.878, 0.984, 0.984, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+                border_radius: [18,2,2,18]
+
+            MySmoothButton:
+                id: btn_save_progress
+                font_size: 20
+                text: 'Salvar'
+                color: 0.149, 0.161, 0.204, 1
+                on_press: root.save_config()
+                back_color: (0.878, 0.984, 0.984, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+                border_radius: [2,18,18,2]

@@ -1,0 +1,172 @@
+<Register>
+    on_pre_enter: root.clear_fields()
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        ScrollView:
+            canvas.before:
+                Color:
+                    rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            StdSettingsContainer:
+                pos_hint: {'top': 1}
+                canvas.before:
+                    Color:
+                        rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                StdSettingTitle:
+                    title: 'CADASTRO DE USUÁRIO'
+                    desc: "Informe os dados do novo usuário"
+                    color: 0,0,0,1
+                    bold: False
+                    font_size: 17
+                    canvas.before:
+                        Color:
+                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                StdSettingString:
+                    id: field_nickname
+                    title: 'Login'
+                    desc: 'Informe um nome de usuário'
+                    value: ''
+                StdSettingString:
+                    id: field_fullname
+                    title: 'Nome completo'
+#                    desc: 'Set user full Name'
+                    value: ''
+                StdSettingSlider:
+                    id: field_age
+                    title: 'Idade'
+                    type: 'int'
+#                    desc: 'Set user age'
+                    value: 25
+                    min: 0
+                    max: 120
+                StdSettingItem:
+                    id: item_gender
+                    title: 'Sexo'
+#                    desc: 'User gender'
+                    Spinner:
+                        id: field_gender
+                        size_hint: None,None
+                        size: 200,40
+                        text: '< Select >'
+                        values: ['Masculino', 'Feminino', 'Outro']
+#                        background_normal: ''
+#                        background_color: 1,1,1,1
+#                        color: 0,0,0,1
+                StdSettingItem:
+                    id: item_disabilities
+                    title: 'Disfunção física ou motora?'
+                    desc: 'Marque se possui algum comprometimento das funções motoras'
+                    disabled: False
+                    Switch:
+                        center_y: 0.5
+                        id: disabilities
+                        disabled: False
+                        active: False
+                        size_hint: None,1
+                        pos: self.pos
+#                        on_touch_down: root.check_crossval_enabled() # n_folds.disabled = False if self.active else True
+#                        on_touch_move: root.check_crossval_enabled() # n_folds.disabled = False if self.active else True
+#                        on_touch_up:  root.check_crossval_enabled() # n_folds.disabled = False if self.active else True
+#                StdSettingTitle:
+#                    title: 'PLAYBACK USER '
+#                    desc: "Set the info about user '"
+#                    color: 0,0,0,1
+#                    bold: False
+#                    canvas.before:
+#                        Color:
+#                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+#                        Rectangle:
+#                            pos: self.pos
+#                            size: self.size
+#                StdSettingItem:
+#                    id: item_belongs_dataset
+#                    title: 'Does it belong to a public data set?'
+#                    CheckBox:
+#                        id: belongs_dataset
+#                        on_release: root.enable_dataset()
+#                StdSettingItem:
+#                    id: item_dataset
+#                    title: 'Dataset'
+#                    desc: 'Choose dataset'
+#    #                disabled: True if root.parent.parent.mode_menu.belongs_dataset.active else False
+#                    Spinner:
+#                        id: field_dataset
+#                        size_hint: None,None
+#                        size: 200,40
+#                        text: '< Select >'
+#                        values: root.ds_list
+#                        on_text: root.update_subject_values()
+#                StdSettingItem:
+#                    id: item_subject
+#                    title: 'Subject'
+#                    desc: 'Choose subject'
+#                    Spinner:
+#                        id: field_subject
+#                        size_hint: None,None
+#                        size: 200,40
+#                        text: '< Select >'
+#                        values: ''
+#                StdSettingSlider:
+#                    id: field_srate
+#                    title: 'Sample Rate'
+#                    type: 'int'
+#                    desc: 'Sample Rate in Hz of the input dataset'
+#                    value: 250
+#                    min: 0
+#                    max: 1000
+#                    disabled: True
+        GridLayout:
+            rows: 1
+            size_hint: (1, None)
+            height: 50
+            spacing: 5
+            padding: 5
+            canvas:
+                Color:
+                    rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                Rectangle:
+                    size:self.size
+                    pos:self.pos
+#            Button:
+#                font_size: 20
+#                text: 'Back'
+#                on_press: root.back_to_start()
+#            Button:
+#                font_size: 20
+#                text: 'Save'
+#                on_press: root.check_register()
+
+            MySmoothButton:
+                font_size: 20
+                text: 'Voltar'
+                color: 0.149, 0.161, 0.204, 1
+                on_press: root.back_to_start()
+#                size_hint_y: None
+#                size: 150,self.parent.height
+                back_color: (0.878, 0.984, 0.984, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+#                border_radius: 10 # [18,2,2,18]
+                border_radius: [18,2,2,18]
+
+            MySmoothButton:
+                font_size: 20
+                text: 'Salvar'
+                color: 0.149, 0.161, 0.204, 1
+                on_press: root.check_register()
+#                size_hint_y: None
+#                size: 150,self.parent.height
+                back_color: (0.878, 0.984, 0.984, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+                border_radius: [2,18,18,2]

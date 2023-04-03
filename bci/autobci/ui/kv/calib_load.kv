@@ -1,0 +1,278 @@
+<CalLoad>:
+    on_pre_enter: if root.session.dp.flag_load: root.load_saved_settings(); root.update_settings() # se o usuário já salvou alguma vez
+
+    BoxLayout:
+        orientation: 'vertical'
+        canvas.before:
+            Color:
+                rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        ScrollView:
+#            canvas:
+#                Color:
+#                    rgba: 0, 0, 0, 0
+#                Rectangle:
+#                    pos: self.pos
+#                    size: self.size
+            canvas.before:
+                Color:
+                    rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            StdSettingsContainer:
+                pos_hint: {'top': 1}
+                canvas.before:
+                    Color:
+                        rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                StdSettingTitle:
+                    title: 'Calibração: carregamento de dados e forma de validação'
+                    desc: 'Set EEG files to load and first info about data'
+                    color: 0,0,0,1
+                    bold: False
+                    font_size: 17
+                    canvas.before:
+                        Color:
+                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+
+#                StdSettingStringLong:
+#                    id: eeg_path
+#                    title: 'Path to EEG file'
+#                    desc: 'The path to the EEG dataset for processing'
+#                    value: ''
+#                    # on_enter: root.update_eeg_info()
+
+                GridLayout:
+                    size_hint_y: None
+                    height: 70
+                    rows: 1
+                    canvas:
+                        Color:
+                            rgba: 0.149, 0.161, 0.204, 1 #47 / 255., 167 / 255., 212 / 255., .1
+                        Rectangle:
+                            pos: self.x, self.y + 1
+                            size: self.size
+                        Color:
+                            rgb: .5, .4, .5
+                        Rectangle:
+                            pos: self.x, self.y - 2
+                            size: self.width, 1
+                    Label:
+                        size_hint_x: .6
+                        id: labellayout
+                        markup: True
+                        title: 'Dados de treinamento'
+                        desc: 'Conjunto de dados para calibração dos parâmetros do sistema'
+                        text: u'{0}\n[size=13sp][color=999999]{1}[/color][/size]'.format(self.title or '', self.desc or '')
+                        font_size: '15sp'
+                        text_size: self.size
+                        valign: 'top'
+                    AnchorLayout:
+                        id: eeg_path
+                        size_hint_x: None
+                        width: 350
+                        value: input.text
+                        TextInput:
+                            id: input
+                            size_hint_y: None
+                            height: 30
+                            multiline: True
+                            text: eeg_path.value
+                            on_focus: root.update_settings()
+                    AnchorLayout:
+                        id: btn_explorer
+                        size_hint_x: None
+                        width: 30
+                        value: input.text
+                        Button:
+                            id: openex
+                            size_hint_y: None
+                            height: 30
+                            font_size: 10
+                            on_release: root.choose()
+                            text: '...'
+
+                GridLayout:
+                    size_hint_y: None
+                    height: 70
+                    rows: 1
+                    canvas:
+                        Color:
+                            rgba: 0.149, 0.161, 0.204, 1  #47 / 255., 167 / 255., 212 / 255., .1
+                        Rectangle:
+                            pos: self.x, self.y + 1
+                            size: self.size
+                        Color:
+                            rgb: .5, .4, .5
+                        Rectangle:
+                            pos: self.x, self.y - 2
+                            size: self.width, 1
+                    Label:
+                        size_hint_x: .6
+                        id: labellayout
+                        markup: True
+                        title: 'Dados de validação'
+                        desc: 'Conjunto de Dados de EEG para validação off-line\n(opcional em caso de validação cruzada)'
+                        text: u'{0}\n[size=13sp][color=999999]{1}[/color][/size]'.format(self.title or '', self.desc or '')
+                        font_size: '15sp'
+                        text_size: self.size
+                        valign: 'top'
+                    AnchorLayout:
+                        id: eeg_path2
+                        size_hint_x: None
+                        width: 350
+                        value: input2.text
+                        TextInput:
+                            id: input2
+                            size_hint_y: None
+                            height: 30
+                            multiline: True
+                            text: eeg_path2.value
+                            on_focus: root.update_settings()
+                    AnchorLayout:
+                        id: btn_explorer
+                        size_hint_x: None
+                        width: 30
+                        value: input2.text
+                        Button:
+                            id: openex
+                            size_hint_y: None
+                            height: 30
+                            font_size: 10
+                            on_release: root.choose2()
+                            text: '...'
+
+#                StdSettingStringLong:
+#                    id: labels_path
+#                    title: 'Path to labels'
+#                    desc: 'The path to the labels of EEG dataset'
+#                    value: ''
+
+#                StdSettingString:
+#                    id: class_ids
+#                    title: 'Event Ids'
+#                    desc: 'List of event labels for epoch extraction. ex: 1 2'
+#                    value: '1 2'
+
+#                StdSettingItem:
+#                    id: item_class_ids
+#                    title: 'Event Ids'
+#                    desc: 'List of event labels for epoch extraction. ex: 1 2'
+#                    disabled: True
+#                    Spinner:
+#                        id: class_ids
+#                        disabled: True
+#                        size_hint: None,None
+#                        size: 200,50
+#                        text: '< Select >'
+#                        values: '' # root.class_ids_list
+#                        # on_text: root.update_subject_values()
+
+                StdSettingSlider:
+                    id: srate
+                    title: 'Taxa de amostragem dos dados (Hz)'
+                    type: 'int'
+                    desc: ''#'Sample Rate in Hz of the input dataset'
+                    value: 250
+                    min: 0
+                    max: 1000
+                    disabled: True
+                StdSettingString:
+                    id: channels
+                    title: 'Channels'
+                    desc: 'Indices de canais para processamento. (entre 1 e ' + str(root.max_channels) + ' ou -1 para todos)\nex: 1 2 3 6 11  ou  2:10'
+                    value: '-1'
+                    width: 50
+                    disabled: True
+                StdSettingTitle:
+                    title: 'Parâmetros para validação off-line'
+                    desc: 'Set parameters for validation analysis'
+                    color: 0,0,0,1
+                    bold: False
+                    font_size: 17
+                    canvas.before:
+                        Color:
+                            rgba: 0.878, 0.984, 0.984, 1 #0.278, 0.427, 0.459, .5 #e0fbfb
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                StdSettingItem:
+                    id: item_cross_val
+                    title: 'Usar validação cruzada'
+                    desc: 'Obs.: usada por padrão para ajuste dos parâmetros no auto setup'
+                    disabled: False
+                    Switch:
+                        center_y: 0.5
+                        id: cross_val
+                        disabled: False
+                        active: False
+                        size_hint: None,1
+                        #size: 200,50
+                        on_touch_down: root.check_crossval_enabled() # n_folds.disabled = False if self.active else True
+                        on_touch_move: root.check_crossval_enabled() # n_folds.disabled = False if self.active else True
+                        on_touch_up:  root.check_crossval_enabled() # n_folds.disabled = False if self.active else True
+                StdSettingSlider:
+                    id: n_folds
+                    title: 'Número de pastas CV (K-fold)'
+                    type: 'int'
+                    desc: ''
+                    value: 10
+                    min: 1
+                    max: 20
+                    disabled: True
+                StdSettingSlider:
+                    id: test_perc
+                    title: 'Fração dos dados de teste'
+                    type: 'float'
+                    desc: 'O modelo será treinado usando (1-fração) dos dados'
+                    value: 0.5
+                    min: 0.1
+                    max: 0.8
+                    disabled: True
+        GridLayout:
+            rows: 1
+            size_hint: (1, None)
+            height: 50
+            spacing: 5
+            padding: 5
+#            Button:
+#                font_size: 20
+#                text: 'Back'
+#                on_press: root.back_to_bci()
+#            Button:
+#                id: btn_save_progress
+#                font_size: 20
+#                text: 'Save and Progress'
+#                on_press: root.save_and_progress()
+#                disabled: True
+
+            canvas:
+                Color:
+                    rgba: 0.149, 0.161, 0.204, 1 # 0.655, 0.686, 0.843, .97
+                Rectangle:
+                    size:self.size
+                    pos:self.pos
+            MySmoothButton:
+                font_size: 20
+                text: 'Voltar'
+                color: 0.149, 0.161, 0.204, 1
+                on_press: root.back_to_bci()
+                back_color: (0.878, 0.984, 0.984, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+                border_radius: [18,2,2,18]
+
+            MySmoothButton:
+                id: btn_save_progress
+                font_size: 20
+                text: 'Salvar e Prosseguir'
+                color: 0.149, 0.161, 0.204, 1
+                on_press: root.save_and_progress()
+                back_color: (0.878, 0.984, 0.984, 1) # (0.024, 0.11, 0.49, .9) # (0.086, 0.243, 0.949, 1) # root.cor_normal
+                border_radius: [2,18,18,2]
