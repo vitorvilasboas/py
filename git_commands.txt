@@ -1,0 +1,43 @@
+GIT & GITHUB
+Git é um versionador de projetos. Ele implementa linhas do tempo navegáveis no projeto.
+
+1. Instalar git conforme https://youtu.be/2y5JGW6nZRs e abrir Git Bash.
+https://git-scm.com/
+
+2. Configurar id e e-mail do usuário na máquina local
+~$ git config --global user.name “git_user”
+~$ git config --global user.email “git_email@dominio.com”
+
+3. Estabelecer link entre servidor remoto (github) e local via chave de autenticação ssh
+~$ ssh-keygen -t rsa -b 4096 -C "email@dominio.com" //criar chave ssh (criar uma senha)
+
+4. Criar conta no GitHub usando a mesma senha usada na chave SSH
+https://github.com/
+
+5. Copiar a chave SSH criada na máquina local: 
+Git GUI >> Help >> Show SSH Key e colar no github >> Settings >> SSH and GPG Keys >> New SSH Key
+
+6. Criar novo repositório no github
+cd G:/Meu\ Drive/devs/
+
+Glossário de comandos:
+git init <path_project>			//instancia git no dir do projeto (entrar no dir antes)
+git add <file>				//adiciona arquivo na lista de commit
+git commit -m "mensagem" 		//comita arquivos na lista
+git commit -am "msg" 			//adiciona todas alterações e commit juntos
+git push 				//empurrar alterações locais para o repositório remoto (local-to-github)
+git push -u origin master 		//cria branch principal (p/ repo recém criado)
+git remote add origin <url_github>	//conecta repositório local à um repositório remoto
+git pull 					//puxa do repositório remoto (github-to-local)
+git clone <url_github> 		//clonar um repositório
+git log 					//exibe log do repositório
+git status 				//exibe estado atual da linha do tempo
+git show 				//exibe ponto específico na linha do tempo
+git branch 				//listar branchs (linhas do tempo)
+git branch <branch_name>		//cria nova linha do tempo (branch) paralela
+git checkout <branch_name> 	//alterna entre linhas do tempo
+git merge <branch_name>		//carrega alterações na branch paralela para branch master
+git branch -D <branch_name> 	//deletar determinada linha do tempo paralela
+git checkout id_commit -- <path_to_file> 	//recuperar arquivo deletado
+git checkout -b <brach_name> 	//cria nova branch e já alterna para ela
+git config credential.helper store 	//grava as credenciais na máquina local (usuário e senha)
