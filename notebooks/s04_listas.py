@@ -112,7 +112,7 @@ print(string[4::3]) # fatiamento a partir de __ salto __
 
 #-%% Dicionários - indices literais
 
-d = dict{}
+d = dict()
 d = {}
 d = {'chave1':'item1','chave2':'item2'}
 d['chave1']
