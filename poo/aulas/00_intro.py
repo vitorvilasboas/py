@@ -6,6 +6,7 @@
 # Settings: View Toolbars; Themes; Color Skems; Fontsize; Ctrl+Mouse; File Encoding 'utf-8'
 # Plugins
 
+
 """
 Hotkeys:
     shift + F10          executa script completo (Run)
