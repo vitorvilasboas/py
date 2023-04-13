@@ -1,10 +1,10 @@
 """
 Desenvolva uma aplicação que simule uma Agenda Pessoal com capacidade para até 10 contatos armazenados. O usuário deve ser capaz de:
-cadastrar o nome, o telefone e o email de um novo contato
-excluir um contato existente
-buscar um contato pelo nome
-listar os contatos cadastrados
-sair da aplicação
+    a. cadastrar o nome, o telefone e o email de um novo contato
+    b. excluir um contato existente
+    c. buscar um contato pelo nome
+    d. listar os contatos cadastrados
+    e. sair da aplicação
 O programa deve ser capaz de verificar se a agenda está cheia e só permitir um novo cadastro caso não tenha atingido a capacidade.
 """
 
