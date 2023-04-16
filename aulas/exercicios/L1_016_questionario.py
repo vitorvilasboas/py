@@ -1,5 +1,5 @@
 """
-Desenvolva um programa que leia uma matriz 10x5 em que as linhas representam as respostas de 5 questões de múltipla escolha (A, B, C ou D) dadas por 10 alunos. Leia uma lista de 5 valores correspondentes ao gabarito das questões. O programa deve conter funções para comparar as respostas de cada aluno com o gabarito e emitir uma lista contendo a pontuação correspondente a cada estudante (número de acertos) ordenada por pontuação de forma decrescente.
+Desenvolva um programa que leia uma matriz 10x5 em que as linhas representam as respostas de 5 questões de múltipla escolha (A, B, C ou D) dadas por 10 lista1_alunos. Leia uma lista de 5 valores correspondentes ao gabarito das questões. O programa deve conter funções para comparar as respostas de cada aluno com o gabarito e emitir uma lista contendo a pontuação correspondente a cada estudante (número de acertos) ordenada por pontuação de forma decrescente.
 """
 from random import choice
 
@@ -25,7 +25,7 @@ if __name__ == '__main__':
     gabarito = [choice(Q), choice(Q), choice(Q), choice(Q), choice(Q)]
     print(f"GABARITO: {gabarito}")
 
-    # for resp,aluno in zip(respostas, alunos): print(aluno, resp)
+    # for resp,aluno in zip(respostas, lista1_alunos): print(aluno, resp)
 
     acertos = [ [aluno, compara(resp, gabarito)] for resp,aluno in zip(respostas, alunos) ]
 

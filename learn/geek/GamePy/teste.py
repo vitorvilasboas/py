@@ -5,4 +5,3 @@ from models.calculo import Calculo
 calc = Calculo(1)
 
 print(calc)
-

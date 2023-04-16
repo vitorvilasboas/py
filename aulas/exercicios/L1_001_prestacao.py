@@ -24,7 +24,6 @@ qtdPrestacoes = 0
 
 while True:
     prestacao = float(input("Informe o valor da prestação em reais: R$"))
-
     if prestacao == 0:
         print("Programa encerrado.")
         break

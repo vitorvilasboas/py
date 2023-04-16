@@ -20,7 +20,7 @@ Listas são mutáveis: Ou seja, elas podem mudar constantemente.
 
 type([])
 
-lista1 = [1, 99, 4, 27, 15, 22, 3, 1, 44, 42, 27]
+lista1_alunos = [1, 99, 4, 27, 15, 22, 3, 1, 44, 42, 27]
 
 lista2 = ['G', 'e', 'e', 'k', ' ', 'U', 'n', 'i', 'v', 'e', 'r', 's', 'i', 't', 'y']
 
@@ -38,11 +38,11 @@ else:
     print(f'Não encontrei o número {num}')
 
 #  Podemos facilmente ordenar uma lista
-lista1.sort()
-print(lista1)
+lista1_alunos.sort()
+print(lista1_alunos)
 
 #  Podemos facilmente contar o número de ocorrências de um valor em uma lista
-print(lista1.count(1))
+print(lista1_alunos.count(1))
 print(lista5.count('e'))
 
 #  Adicionar elementos em listas
@@ -50,45 +50,45 @@ print(lista5.count('e'))
 
 # Para adicionar elementos em listas, utilizamos a função append
 
-print(lista1)
-lista1.append(42)
-print(lista1)
+print(lista1_alunos)
+lista1_alunos.append(42)
+print(lista1_alunos)
 
 # OBS: Com append, nós só conseguimos adicionar 1 elemento por vez
-#  lista1.append(12, 34, 56) # Erro
+#  lista1_alunos.append(12, 34, 56) # Erro
 
-lista1.append([8, 3, 1]) # Coloca a lista como elemento único (sublista)
-print(lista1)
+lista1_alunos.append([8, 3, 1]) # Coloca a lista como elemento único (sublista)
+print(lista1_alunos)
 
-if [8, 3, 1] in lista1:
+if [8, 3, 1] in lista1_alunos:
     print('Encontrei a lista')
 else:
     print('Não encontrei a lista')
 
-lista1.extend([123, 44, 67]) # Coloca cada elemento da lista como valor adicional á lista
-print(lista1)
+lista1_alunos.extend([123, 44, 67]) # Coloca cada elemento da lista como valor adicional á lista
+print(lista1_alunos)
 
 #  Podemos inserir um novo elemento na lista informando a posição do índice
 # OBS: Isso não substitui o valor inicial. O mesmo será deslocado para a direita da lista.
-lista1.insert(2, 'Novo Valor')
-print(lista1)
+lista1_alunos.insert(2, 'Novo Valor')
+print(lista1_alunos)
 
 # Podemos facilmente juntar duas listas
 
-lista1 = lista1 + lista2
-#  lista1.extend(lista2)
-print(lista1)
+lista1_alunos = lista1_alunos + lista2
+#  lista1_alunos.extend(lista2)
+print(lista1_alunos)
 
 # Podemos facilmente inverter uma lista
 
 # Forma 1
-lista1.reverse()
+lista1_alunos.reverse()
 lista2.reverse()
-print(lista1)
+print(lista1_alunos)
 print(lista2)
 
 # Forma 2
-print(lista1[::-1])
+print(lista1_alunos[::-1])
 print(lista2[::-1])
 
 # Copiar uma lista

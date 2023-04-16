@@ -7,6 +7,7 @@ res = z(3, e=2)
 
 
 #### Map — itera os valores passando por uma função específica
+
 def func(b, e=2):
     return b ** e
 
@@ -27,9 +28,7 @@ lista = [1, 2, 3, 4, 5, 6]
 resultado = list(filter(par, lista))
 print(resultado)
 
-resultado = list(filter(lambda x: x % 2 == 0, lista))
-print(resultado)
-
+print(list(filter(lambda x: x % 2 == 0, lista)))
 
 #### Reduce — Aplica uma função a uma lista 2 a 2
 

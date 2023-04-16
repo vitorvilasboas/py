@@ -4,7 +4,6 @@ Desenvolver uma aplicação que simule um jogo em que, ao ser inicializada, seja
 
 from models.calculo import Calculo
 
-
 def main() -> None:
     pontos = 0
     jogar(pontos)
@@ -16,7 +15,7 @@ def jogar(pontos: int) -> None:
 
     calc = Calculo(dificuldade) # chamma o método construtor
 
-    print('Informe o resultado para a seguinte operacação: ')
+    print('Informe o resultado para a seguinte operação: ')
     calc.mostrar_operacao()
 
     resposta: int = int(input())

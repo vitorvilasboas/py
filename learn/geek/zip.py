@@ -5,10 +5,10 @@ zip() -> Cria um iterável (Zip Object) que agrega elemento de cada um dos iter�
 
 # Exmplos
 
-lista1 = [1, 2, 3]
+lista1_alunos = [1, 2, 3]
 lista2 = [4, 5, 6, 12]
 
-zip1 = zip(lista1, lista2, 'abc')
+zip1 = zip(lista1_alunos, lista2, 'abc')
 
 print(zip1)
 print(type(zip1))
@@ -18,13 +18,13 @@ print(type(zip1))
 print(list(zip1))
 
 
-zip1 = zip(lista1, lista2, 'abc')
+zip1 = zip(lista1_alunos, lista2, 'abc')
 print(tuple(zip1))
 
-zip1 = zip(lista1, lista2, 'abc')
+zip1 = zip(lista1_alunos, lista2, 'abc')
 print(set(zip1))
 
-zip1 = zip(lista1, lista2)
+zip1 = zip(lista1_alunos, lista2)
 print(dict(zip1))
 
 
@@ -34,7 +34,7 @@ print(dict(zip1))
 
 lista3 = [7, 8, 9, 10, 11]
 
-zip1 = zip(lista3, lista2, lista1)
+zip1 = zip(lista3, lista2, lista1_alunos)
 print(list(zip1))
 
 # Podemos utilizar diferentes iteráveis com zip

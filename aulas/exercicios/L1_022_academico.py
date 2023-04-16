@@ -31,19 +31,25 @@ def menu():
     return int(op)
 
 def cadastrar(lista):
-    # nome, a matrícula, a série, a turma e as quatro notas bimestrais de um aluno
     aluno = {}
-    aluno['nome'] = input("Informe o nome do aluno: ")
+    print("=== Novo aluno ===")
+    aluno['nome'] = input("Nome: ")
+    aluno['matricula'] = input("Matrícula: ")
+    aluno['serie'] = input("Série: ")
+    aluno['turma'] = input("Turma: ")
+    aluno['notas'] = [float(input(f"{i+1}ª Nota: ")) for i in range(4)]
+    aluno['media'] = calcular_media(aluno['notas'])
+    aluno['conceito'], aluno['situacao'] = definir_conceito(aluno['media'])
+    lista.append(aluno)
     return lista
 
-def calcular_media():
-    pass
-    bdhkfhskdhfksdhfhsdkfh
+def calcular_media(n):
+    return (n[0]*3 + n[1]*2 + n[2]*3 + n[3]*2)/10
 
-def definir_conceito():
-    pass
+def definir_conceito(media):
+    return 'D','Reprovado' if media < 4 else 'C','Recuperação' if media < 6 else 'B','Aprovado' if media < 8 else 'A','Aprovado com mérito'
 
-def buscar():
+def buscar(mat):
     pass
 
 def emitir_relatorio():
@@ -55,9 +61,8 @@ if __name__ == '__main__':
         op = menu()
         if op == 0:
             if input("Tem certeza que deseja sair S/N?").upper() != 'N': break
-        elif op == 1:
-            cadastrar(alunos)
+        elif op == 1: alunos = cadastrar(alunos)
         elif op == 2:
-            buscar()
+            aluno = buscar(input("Informe a matrícula do aluno: "))
         else: pass
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Crie um programa que leia o nome, o cargo, a idade, o sexo e o salário de vários funcionários de uma vitor_poo.
+Crie um programa que leia o nome, o cargo, a idade, o sexo e o salário de vários funcionários de uma empresa.
 A cada funcionário cadastrado, o programa deverá perguntar se o usuário quer ou não continuar. No final, mostre:
 * quantos funcionários com salário acima de R\$2000,00 foram cadastrados.
 * os nomes dos funcionários menores de 18 anos.

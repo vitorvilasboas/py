@@ -72,16 +72,16 @@ Exemplo: Informe a idade dada data de nascimento
 # idade = ano_atual - ano
 
 """
-Exemplo: Um professor quer sortear a ordem de apresentação do trabalho dos alunos. Leia o nome de cinco alunos, armazene-os em uma lista e mostre a ordem sorteada.
+Exemplo: Um professor quer sortear a ordem de apresentação do trabalho dos lista1_alunos. Leia o nome de cinco lista1_alunos, armazene-os em uma lista e mostre a ordem sorteada.
 """
 # from random import randint
 # from time import sleep
 # print(f"Estudante sorteado: \033[1m{['MARCELO', 'MARIA','NICOLAS','PEDRO','ESTER'][randint(0, 4)]}\033[0m")
 # # OU
-# alunos = ['MARCELO', 'MARIA','NICOLAS','PEDRO','ESTER']
-# n = randint(0, len(alunos)-1)
+# lista1_alunos = ['MARCELO', 'MARIA','NICOLAS','PEDRO','ESTER']
+# n = randint(0, len(lista1_alunos)-1)
 # sleep(2)
-# print(f"Estudante sorteado: \033[1m{alunos[n]}\033[0m")
+# print(f"Estudante sorteado: \033[1m{lista1_alunos[n]}\033[0m")
 
 """
 Exemplo: Solicite o nome, a idade e a cidade de 5 usuários e armazene todos esses dados primeiro em uma lista para cada usuário e depois em uma lista única. Ao final mostre:
